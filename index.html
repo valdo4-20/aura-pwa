@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="description" content="AURA: uma interface experimental de IA visual em ASCII 3D." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AURA" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icons/aura.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/aura-180.png" />
+    <title>AURA — inteligência visual</title>
+  </head>
+  <body>
+    <main id="app">
+      <header class="topbar">
+        <button id="settings-toggle" class="icon-button settings-toggle" type="button" aria-label="Configurações" title="Configurações">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z"/><path d="m19.4 15 .05.03a1.8 1.8 0 0 1-1.8 3.12l-.05-.03a1.78 1.78 0 0 0-2.67 1.54v.07a1.8 1.8 0 0 1-3.6 0v-.06a1.78 1.78 0 0 0-2.67-1.55l-.05.03a1.8 1.8 0 1 1-1.8-3.12l.05-.03a1.78 1.78 0 0 0-.9-3.31h-.07a1.8 1.8 0 0 1 0-3.6h.06a1.78 1.78 0 0 0 1.55-2.67l-.03-.05a1.8 1.8 0 1 1 3.12-1.8l.03.05a1.78 1.78 0 0 0 3.31-.9v-.07a1.8 1.8 0 0 1 3.6 0v.06a1.78 1.78 0 0 0 2.67 1.55l.05-.03a1.8 1.8 0 1 1 1.8 3.12l-.05.03a1.78 1.78 0 0 0 .9 3.31h.07a1.8 1.8 0 0 1 0 3.6h-.06a1.78 1.78 0 0 0-1.55 1.71Z" transform="translate(-1.5 -1.5) scale(.9)"/></svg>
+        </button>
+      </header>
+
+      <section class="stage" aria-label="Visualização tridimensional">
+        <canvas id="visual-canvas" aria-label="Esfera tridimensional formada por caracteres ASCII"></canvas>
+        <div class="stage-caption">
+          <span id="visual-label">ESFERA · EM REPOUSO</span>
+        </div>
+        <div id="notice" class="notice" role="status" aria-live="polite"></div>
+        <section id="settings-panel" class="side-panel settings-panel" aria-label="Configurações" hidden>
+          <div class="panel-heading"><div><h2>Configurações</h2><span id="mode-label" class="mode-label">Modo offline</span></div><button class="panel-close" data-close="settings-panel" aria-label="Fechar">×</button></div>
+          <label class="setting-row" for="density-input">Densidade <span id="density-value">1.200</span></label>
+          <input id="density-input" type="range" min="400" max="2400" step="100" value="1200" />
+          <label class="setting-row" for="gemini-api-key">Chave Gemini API</label>
+          <input id="gemini-api-key" class="text-setting" type="password" placeholder="Cole sua chave do AI Studio" autocomplete="off" />
+          <label class="setting-row" for="gemini-model">Modelo Gemini</label>
+          <input id="gemini-model" class="text-setting" type="text" value="gemini-3.1-flash-lite" autocomplete="off" />
+          <a class="api-link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Criar chave no Google AI Studio ↗</a>
+          <button id="save-settings" class="secondary-button" type="button">Salvar configurações</button>
+          <p class="settings-note">A chave fica neste dispositivo. No plano gratuito, os dados enviados podem ser usados para melhorar produtos Google.</p>
+          <label class="motion-setting"><input id="reduced-motion" type="checkbox" /> Reduzir movimento</label>
+          <label class="motion-setting"><input id="pause-animation" type="checkbox" /> Pausar esfera</label>
+          <button id="install-app" class="secondary-button install-button" type="button" hidden>Instalar AURA</button>
+          <p class="settings-note install-help">No iPhone: use Compartilhar → Adicionar à Tela de Início.</p>
+          <details class="memory-details">
+            <summary>Memória local</summary>
+            <p class="settings-note">Informações salvas quando você pediu explicitamente.</p>
+            <div id="memory-list" class="memory-list"></div>
+          </details>
+          <button id="clear-chat" class="text-button clear-chat" type="button">Apagar histórico da conversa</button>
+        </section>
+      </section>
+
+      <section class="conversation" aria-label="Conversa com AURA">
+        <div id="messages" class="messages" aria-live="polite" aria-relevant="additions text"></div>
+        <form id="chat-form" class="composer">
+          <label class="sr-only" for="message-input">Mensagem</label>
+          <input id="message-input" name="message" type="text" maxlength="1000" placeholder="Pergunte algo…" autocomplete="off" />
+          <button id="send-button" type="submit" aria-label="Enviar mensagem">↗</button>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
